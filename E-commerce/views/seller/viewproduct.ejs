@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <% include ../layout %>
+    <div class="container mt-4">
+        <h3 align="center">Product List</h3>
+        <table id="myTable" class="table table-fluid mt-4">
+            <thead class="table-dark">
+                <th scope="col">รหัสสินค้า</th>
+              <th scope="col">ชื่อสินค้า</th>
+              <th scope="col">รูปภาพสินค้า</th>
+              <th scope="col">ราคา</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </thead>
+            <tbody>
+                <% products.forEach(function(product){%>
+                    <tr>
+                        <th scope="row"><%= product._id %></td>
+                        <th scope="row"><%= product.name %></td>
+                        <td><img class="" src="/images/<%= product.image %>" alt="" width="200px" height="200px"></td>
+                        <td><%= product.price %></td>
+                        <td><a href="/seller/editproduct/<%=product._id%>" class="btn btn-success">Edit</a></td>
+                       <!-- <td><a href="" class="btn btn-danger delete-project" data-id="<%=product._id%> ">Delete</a></td> -->
+                       <td><button type="button" class="btn btn-danger delete-project" data-id="<%=product._id%>">Delete</button></td>
+                    </tr>
+                <%})%>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.delete-project').on('click',function(){
+            var delete_id = $(this).data(delete_id)
+            var url = "/seller/deleteproduct/"+delete_id.id
+            if(confirm("ลบข้อมูลนี้ใช่ไหม?")){
+                $.ajax({
+                    url:url,
+                    type:'GET',
+                    success:function(result){
+                        location.reload();
+                        console.log("success")
+                    },
+                    error:function(error){
+                        console.log(error)
+                    }
+                })
+            }      
+        })
+    })
+</script>
+
+
+</html>

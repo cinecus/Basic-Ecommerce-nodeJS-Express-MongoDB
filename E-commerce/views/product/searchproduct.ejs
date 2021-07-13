@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <%- include ../layout %>
+    <div class="container">
+      <div class="row">
+        <%- include ../sidebar %>
+          <div class="col-lg-9">
+            <div class="row">
+              <% products.forEach(function(product){ %>
+                <div class="col-lg-4 col-md-6 mb-4 mt-4">
+                  <div class="card h-100">
+                    <a href="#"><img class="card-img-top" src="/images/<%= product.image %>" alt="" width="500px" height="300px" data-toggle="modal" data-target="#<%= product.name%>"></a>
+                    <div class="card-body ">
+                      <h4 class="card-title">
+                        <a href="#"><%= product.name %></a>
+                      </h4>
+                      <h5><%= product.price %> บาท</h5>
+                      <div class="card-footer pb-2 ">
+                        <form class="form-group" action="/customer/cart/<%=product._id%>" method="post">
+                          <input type="hidden" name="product_id" value="<%=product._id%>">
+                          <input type="submit" class="btn btn-primary" value="เพิ่มลงตะกร้า">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <%})%>
+            </div>
+      </div>
+    </div>
+
+    <footer class="py-5 bg-dark ">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Cinecus Studio <a href="admin/login">Admin</a></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+    <% products.forEach(function(product){%>
+    <div class="modal" id="<%= product.name%>">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title"><%= product.name %></h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <img class="img-fluid" src="/images/<%= product.image %>" alt="" width="500" height="700"> 
+            <p>
+              <%= product.description %>
+            </p>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a class="btn btn-primary" href="#">เพิ่มลงตะกร้า</a>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <%})%>
+</body>
+
+</html>
